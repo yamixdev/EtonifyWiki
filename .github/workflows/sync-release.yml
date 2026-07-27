@@ -1,0 +1,50 @@
+name: Sync latest Etonify release
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "17 */6 * * *"
+
+permissions:
+  contents: write
+
+concurrency:
+  group: sync-latest-release
+  cancel-in-progress: true
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out documentation
+        uses: actions/checkout@93cb6efe18208431cddfb8368fd83d5badbf9bfd # v5
+
+      - name: Fetch the latest public release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          temporary_file="$(mktemp)"
+          gh api repos/yamixdev/Etonify/releases/latest \
+            --jq '{tagName: .tag_name, name: (.name // .tag_name), publishedAt: .published_at, url: .html_url, body: (.body // "")}' \
+            > "$temporary_file"
+          jq -e '
+            type == "object" and
+            (.tagName | type == "string") and
+            (.name | type == "string") and
+            (.publishedAt | type == "string") and
+            (.url | startswith("https://github.com/yamixdev/Etonify/releases/")) and
+            (.body | type == "string")
+          ' "$temporary_file" > /dev/null
+          jq --indent 2 . "$temporary_file" > assets/latest-release.json
+
+      - name: Commit a changed release snapshot
+        run: |
+          if git diff --quiet -- assets/latest-release.json; then
+            echo "Release snapshot is already current."
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add assets/latest-release.json
+          git commit -m "docs: sync latest Etonify release"
+          git push
