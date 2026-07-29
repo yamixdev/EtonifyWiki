@@ -83,10 +83,53 @@ window.ETONIFY_DOCS = {
               <p>Клиент распространяется по Apache-2.0. Исходники, история изменений и сборки находятся на GitHub.</p>
             </article>
           </div>
+          <h3 class="subheading">Кому подойдёт Etonify</h3>
+          <div class="audience-grid">
+            <article><h3>Подойдёт</h3><p>Тем, у кого уже есть своя VPN-подписка или конфигурация и нужен Android-клиент для подключения.</p></article>
+            <article><h3>Подойдёт</h3><p>Тем, кому нужны маршрутизация по приложениям, выбор серверов, DNS-настройки и диагностика соединения.</p></article>
+            <article class="not-supported"><h3>Не подойдёт</h3><p>Тем, кто ищет встроенные бесплатные серверы: Etonify их не выдаёт и не продаёт.</p></article>
+          </div>
+          <div class="callout neutral"><strong>Для первого подключения обычно достаточно настроек по умолчанию.</strong><p>Добавьте подписку, выберите сервер и подтвердите VPN-разрешение. DNS, TUN stack, локальный прокси и раздельную маршрутизацию лучше менять только при понятной задаче.</p></div>
           <div class="callout neutral">
             <strong>Проект развивается.</strong>
             <p>Перед обновлением сохраняйте рабочую подписку и настройки. Если заметили регрессию, экспортируйте диагностику до переустановки приложения.</p>
           </div>
+        `,
+      },
+      {
+        id: 'compatibility',
+        group: 'start',
+        nav: 'Поддержка и форматы',
+        kicker: 'Совместимость',
+        title: 'Что поддерживает Etonify 0.2.5',
+        lead: 'Поддержка складывается из двух частей: клиент должен распознать импорт, а встроенное ядро — принять корректный конфиг и подключиться к серверу провайдера.',
+        body: `
+          <div class="support-matrix" role="region" aria-label="Таблица поддержки Etonify" tabindex="0">
+            <table>
+              <thead><tr><th scope="col">Возможность</th><th scope="col">Поддержка</th><th scope="col">Что важно знать</th></tr></thead>
+              <tbody>
+                <tr><th scope="row">Android</th><td><span class="support-state yes">Да, 8.0+</span></td><td>Релизная платформа клиента.</td></tr>
+                <tr><th scope="row">Системный VPN TUN</th><td><span class="support-state yes">Да</span></td><td>Трафик приложений идёт через системный Android VPN.</td></tr>
+                <tr><th scope="row">Локальный HTTP / SOCKS</th><td><span class="support-state yes">Да</span></td><td>Адрес, порт и пароль указываются вручную в другом приложении или устройстве.</td></tr>
+                <tr><th scope="row">Подписки по URL</th><td><span class="support-state yes">Да</span></td><td>HTTPS, ручные заголовки и безопасная политика redirect.</td></tr>
+                <tr><th scope="row">QR-коды и буфер обмена</th><td><span class="support-state yes">Да</span></td><td>Камера нужна только во время сканирования QR.</td></tr>
+                <tr><th scope="row">sing-box JSON</th><td><span class="support-state yes">Да</span></td><td>Поддерживается совместимый конфиг с корректными outbound.</td></tr>
+                <tr><th scope="row">Xray JSON</th><td><span class="support-state yes">Да</span></td><td>Импортируются распространённые Xray-совместимые outbound.</td></tr>
+                <tr><th scope="row">Happ-ссылки</th><td><span class="support-state yes">Да</span></td><td><code>happ://add</code> и семейство <code>crypt*</code>.</td></tr>
+                <tr><th scope="row">Раздельная маршрутизация</th><td><span class="support-state yes">Да</span></td><td>Белый и чёрный список Android-приложений.</td></tr>
+                <tr><th scope="row">Windows / iOS</th><td><span class="support-state no">Нет</span></td><td>На 0.2.5 это не релизные платформы.</td></tr>
+              </tbody>
+            </table>
+          </div>
+          <h3 class="subheading">VPN-протоколы и форматы серверов</h3>
+          <div class="protocol-grid">
+            <article><h3>Основные</h3><p><strong>VLESS, VMess, Trojan, Shadowsocks</strong> — поддерживаются для ссылок и совместимых конфигураций.</p></article>
+            <article><h3>Современные UDP</h3><p><strong>Hysteria2, TUIC, WireGuard</strong> — поддерживаются, если в подписке есть все обязательные поля сервера.</p></article>
+            <article><h3>Через sing-box JSON</h3><p><strong>AnyTLS, Naive, SOCKS и HTTP</strong> поддерживаются в совместимой конфигурации ядра.</p></article>
+            <article class="not-supported"><h3>Не гарантируется</h3><p><strong>ShadowsocksR</strong> и старый Hysteria v1 не являются поддерживаемыми форматами импорта 0.2.5. Неизвестный или неполный outbound не должен мешать работе остальных серверов.</p></article>
+          </div>
+          <p class="compact-note">TLS, Reality, WebSocket, gRPC и другие параметры транспорта зависят от самого конфига и сервера. Список протоколов не заменяет корректную подписку: клиент не может исправить неверный UUID, домен, ключ или закрытый endpoint.</p>
+          <div class="callout neutral"><strong>Техническая база.</strong><p>Etonify использует <a href="https://github.com/yamixdev/etonify-core/tree/etonify-dev" target="_blank" rel="noreferrer">yamixdev/etonify-core</a> — sing-box с изменениями для клиента. Версия ядра и формат подписки могут влиять на доступность редких транспортов.</p></div>
         `,
       },
       {
@@ -142,6 +185,25 @@ window.ETONIFY_DOCS = {
             <div><span>Установка через ADB</span></div>
             <pre><code>adb install -r app-arm64-v8a-release.apk</code></pre>
           </div>
+        `,
+      },
+      {
+        id: 'permissions',
+        group: 'start',
+        nav: 'Разрешения Android',
+        kicker: 'Прозрачность',
+        title: 'Зачем клиенту нужны разрешения',
+        lead: 'Etonify не запрашивает разрешения «на всякий случай»: каждое из них связано с отдельной функцией Android-клиента.',
+        body: `
+          <div class="permission-grid">
+            <article><h3>VPN-разрешение</h3><p>Системный диалог Android создаёт TUN-интерфейс. Без него VPN-режим не может передавать трафик.</p></article>
+            <article><h3>Камера</h3><p>Нужна только для сканирования QR-кода. Ручной импорт и обычные подписки работают без камеры.</p></article>
+            <article><h3>Уведомления</h3><p>Нужны для видимого статуса foreground VPN-сервиса: подключение, сервер и кнопка остановки. Поведение запроса зависит от версии Android.</p></article>
+            <article><h3>Установка APK</h3><p>Используется только OTA-обновлением для передачи APK в системный установщик. Etonify не может установить обновление молча.</p></article>
+            <article><h3>Список приложений</h3><p>Нужен, чтобы показать приложения в раздельной маршрутизации. Список остаётся на устройстве и не отправляется провайдеру.</p></article>
+            <article><h3>Выбор файла</h3><p>Импорт и экспорт используют системный проводник Android. Клиент не запрашивает полный доступ ко всему хранилищу.</p></article>
+          </div>
+          <div class="callout neutral"><strong>Что можно отключить?</strong><p>Камеру и установку APK можно не разрешать, если вы не используете QR и OTA. Для работающего системного VPN требуется только подтверждение VPN Android; уведомление рекомендуется оставить включённым, чтобы Android не скрывал состояние сервиса.</p></div>
         `,
       },
       {
@@ -215,6 +277,28 @@ window.ETONIFY_DOCS = {
           </div>
           <div class="callout neutral"><strong>Ограничение встроенного ядра 0.2.5.</strong><p>Ядро выполняет HTTP URLTest для группы, но не предоставляет честную отдельную HTTP-проверку одного outbound. Поэтому результаты приходят асинхронно для участников группы, а нажатие на задержку выбранного сервера не следует трактовать как независимый ICMP- или TCP-пинг именно этого endpoint.</p></div>
           <div class="callout warning"><strong>Не запускайте проверку сотен серверов много раз подряд.</strong><p>Каждая проверка создаёт сетевые запросы и расходует процессор, батарею и файловые дескрипторы. Дождитесь завершения текущей сессии.</p></div>
+        `,
+      },
+      {
+        id: 'terms',
+        group: 'use',
+        nav: 'Словарь терминов',
+        kicker: 'Без жаргона',
+        title: 'Коротко о технических словах',
+        lead: 'Эти термины встречаются в настройках и логах. Их не нужно запоминать, но полезно понимать при диагностике.',
+        body: `
+          <div class="glossary-grid">
+            <article><h3>Inbound</h3><p>Точка входа трафика в Etonify: Android VPN TUN или локальный HTTP/SOCKS-прокси.</p></article>
+            <article><h3>Outbound</h3><p>Сервер либо маршрут, через который трафик выходит из клиента в интернет.</p></article>
+            <article><h3>Endpoint</h3><p>Конкретный адрес сервера вместе с портом, протоколом и параметрами подключения.</p></article>
+            <article><h3>URLTest</h3><p>Проверка доступности реальным HTTP-запросом через прокси. Это не ICMP-пинг до IP-адреса.</p></article>
+            <article><h3>TUN stack</h3><p>Сетевой стек VPN: <code>gVisor</code>, <code>system</code> или <code>Mixed</code>. Он влияет на совместимость и нагрузку.</p></article>
+            <article><h3>DoH и DoT</h3><p>Шифрованные DNS-протоколы: DNS over HTTPS и DNS over TLS.</p></article>
+            <article><h3>HWID</h3><p>Идентификатор устройства, который некоторые провайдеры используют для выдачи подписки. Etonify запрашивает согласие перед его отправкой.</p></article>
+            <article><h3>ABI</h3><p>Архитектура процессора Android, например <code>arm64-v8a</code>. От неё зависит нужный APK.</p></article>
+            <article><h3>PSS и RSS</h3><p>Показатели памяти процесса: PSS учитывает разделяемую память пропорционально, RSS — всю находящуюся в RAM. Их полезно сравнивать во времени, а не по одному числу.</p></article>
+            <article><h3>Cross-origin redirect</h3><p>Переход ссылки подписки на другой домен. При таком переходе Etonify не переносит чувствительные заголовки на новый host.</p></article>
+          </div>
         `,
       },
       {
@@ -299,6 +383,27 @@ window.ETONIFY_DOCS = {
             <li>При несовпадении подписи Android не установит APK поверх существующего приложения.</li>
           </ul>
           <div class="callout success"><strong>Настройки сохраняются при обычном обновлении.</strong><p>Удаление приложения очищает его локальные данные, поэтому перед переустановкой используйте зашифрованный экспорт.</p></div>
+        `,
+      },
+      {
+        id: 'limitations',
+        group: 'solve',
+        nav: 'Ограничения',
+        kicker: 'Важно знать',
+        title: 'Границы возможностей клиента',
+        lead: 'Это не ошибки и не скрытые условия: эти ограничения помогут правильно оценить результат диагностики и не тратить время на неверные ожидания.',
+        body: `
+          <div class="limits-grid">
+            <article><h3>Только Android</h3><p>В 0.2.5 нет релизного клиента для Windows, iOS, macOS или Linux.</p></article>
+            <article><h3>Серверы не включены</h3><p>Клиент подключается к вашей подписке. Доступность, срок и правила сервера определяет провайдер.</p></article>
+            <article><h3>Формат решает</h3><p>Подписка может содержать неподдерживаемый или неполный сервер. Поддержка протокола не делает неверные параметры рабочими.</p></article>
+            <article><h3>URLTest — не замер скорости</h3><p>Результат показывает время конкретного HTTP-запроса. Он не равен ICMP, пропускной способности или качеству всех сайтов.</p></article>
+            <article><h3>Раздельная маршрутизация</h3><p><code>Mixed</code> на части устройств нестабилен со split tunneling. При проблемах используйте сначала <code>gVisor</code>, затем <code>system</code>.</p></article>
+            <article><h3>Локальный прокси</h3><p>Он не включает VPN сам по себе: приложение или устройство должно быть настроено на адрес, порт, логин и пароль Etonify.</p></article>
+            <article><h3>Большие подписки</h3><p>Сотни и тысячи серверов, массовый URLTest и тяжёлые rule-set увеличивают расход памяти, батареи и время обработки.</p></article>
+            <article><h3>Фоновая работа</h3><p>VPN использует foreground service, но агрессивная экономия батареи некоторых прошивок всё равно может ограничить фоновые процессы. Если это повторяется, проверьте настройки батареи системы.</p></article>
+          </div>
+          <div class="callout warning"><strong>«Подключено» не заменяет проверку трафика.</strong><p>После смены сети Wi‑Fi ↔ мобильная сеть, обновления подписки или изменения TUN stack проверьте открытие нужного приложения. Если есть проблема, сохраните диагностику до повторного подключения.</p></div>
         `,
       },
       {
@@ -483,7 +588,50 @@ window.ETONIFY_DOCS = {
             <article class="info-card"><span class="card-mark">02</span><h3>Bring a subscription</h3><p>The app does not provide servers. Use a subscription or configuration you own or are allowed to use.</p></article>
             <article class="info-card"><span class="card-mark">03</span><h3>Open source</h3><p>The client is Apache-2.0 licensed. Source code, changes, and builds are published on GitHub.</p></article>
           </div>
+          <h3 class="subheading">Who Etonify is for</h3>
+          <div class="audience-grid">
+            <article><h3>A good fit</h3><p>For people who already have a VPN subscription or configuration and need an Android client to connect.</p></article>
+            <article><h3>A good fit</h3><p>For people who need per-app routing, server selection, DNS settings, and connection diagnostics.</p></article>
+            <article class="not-supported"><h3>Not a fit</h3><p>For people looking for built-in free servers: Etonify does not provide or sell them.</p></article>
+          </div>
+          <div class="callout neutral"><strong>Default settings are normally enough for a first connection.</strong><p>Add a subscription, choose a server, and approve the Android VPN prompt. Change DNS, the TUN stack, local proxy, and split tunneling only for a clear reason.</p></div>
           <div class="callout neutral"><strong>The project is evolving.</strong><p>Keep a working subscription and settings backup before updating. If you hit a regression, export diagnostics before reinstalling the app.</p></div>
+        `,
+      },
+      {
+        id: 'compatibility',
+        group: 'start',
+        nav: 'Support and formats',
+        kicker: 'Compatibility',
+        title: 'What Etonify 0.2.5 supports',
+        lead: 'Support has two parts: the client needs to recognise the import, then the bundled core must accept a valid configuration and connect to the provider server.',
+        body: `
+          <div class="support-matrix" role="region" aria-label="Etonify support matrix" tabindex="0">
+            <table>
+              <thead><tr><th scope="col">Capability</th><th scope="col">Support</th><th scope="col">What matters</th></tr></thead>
+              <tbody>
+                <tr><th scope="row">Android</th><td><span class="support-state yes">Yes, 8.0+</span></td><td>The client’s release platform.</td></tr>
+                <tr><th scope="row">System VPN TUN</th><td><span class="support-state yes">Yes</span></td><td>Android app traffic goes through the system VPN.</td></tr>
+                <tr><th scope="row">Local HTTP / SOCKS</th><td><span class="support-state yes">Yes</span></td><td>Set the address, port, and password manually in another app or device.</td></tr>
+                <tr><th scope="row">URL subscriptions</th><td><span class="support-state yes">Yes</span></td><td>HTTPS, manual headers, and a safe redirect policy.</td></tr>
+                <tr><th scope="row">QR codes and clipboard</th><td><span class="support-state yes">Yes</span></td><td>The camera is only used while scanning a QR code.</td></tr>
+                <tr><th scope="row">sing-box JSON</th><td><span class="support-state yes">Yes</span></td><td>A compatible configuration with valid outbounds is required.</td></tr>
+                <tr><th scope="row">Xray JSON</th><td><span class="support-state yes">Yes</span></td><td>Common Xray-compatible outbounds can be imported.</td></tr>
+                <tr><th scope="row">Happ links</th><td><span class="support-state yes">Yes</span></td><td><code>happ://add</code> and the <code>crypt*</code> family.</td></tr>
+                <tr><th scope="row">Split tunneling</th><td><span class="support-state yes">Yes</span></td><td>Android app allowlists and denylists.</td></tr>
+                <tr><th scope="row">Windows / iOS</th><td><span class="support-state no">No</span></td><td>They are not release platforms in 0.2.5.</td></tr>
+              </tbody>
+            </table>
+          </div>
+          <h3 class="subheading">VPN protocols and server formats</h3>
+          <div class="protocol-grid">
+            <article><h3>Core set</h3><p><strong>VLESS, VMess, Trojan, Shadowsocks</strong> are supported through links and compatible configurations.</p></article>
+            <article><h3>Modern UDP</h3><p><strong>Hysteria2, TUIC, WireGuard</strong> are supported when the subscription contains all required server fields.</p></article>
+            <article><h3>Through sing-box JSON</h3><p><strong>AnyTLS, Naive, SOCKS, and HTTP</strong> are supported by a compatible core configuration.</p></article>
+            <article class="not-supported"><h3>Not guaranteed</h3><p><strong>ShadowsocksR</strong> and legacy Hysteria v1 are not supported import formats in 0.2.5. An unknown or incomplete outbound should not prevent other servers from working.</p></article>
+          </div>
+          <p class="compact-note">TLS, Reality, WebSocket, gRPC, and other transport parameters depend on the configuration and the server. A protocol list cannot repair an incorrect UUID, domain, key, or closed endpoint.</p>
+          <div class="callout neutral"><strong>Technical base.</strong><p>Etonify uses <a href="https://github.com/yamixdev/etonify-core/tree/etonify-dev" target="_blank" rel="noreferrer">yamixdev/etonify-core</a>, a sing-box core with client-specific changes. The core version and subscription format can affect uncommon transports.</p></div>
         `,
       },
       {
@@ -521,6 +669,25 @@ window.ETONIFY_DOCS = {
           </ol>
           <div class="callout warning"><strong>Cannot install over an older build?</strong><p>The APK may have a different signature or lower version code. Export your data, uninstall the old build, then install the new one.</p></div>
           <div class="command-block"><div><span>Install with ADB</span></div><pre><code>adb install -r app-arm64-v8a-release.apk</code></pre></div>
+        `,
+      },
+      {
+        id: 'permissions',
+        group: 'start',
+        nav: 'Android permissions',
+        kicker: 'Transparency',
+        title: 'Why the client needs permissions',
+        lead: 'Etonify does not request permissions “just in case”: each one maps to a separate Android-client function.',
+        body: `
+          <div class="permission-grid">
+            <article><h3>VPN permission</h3><p>The Android system prompt creates a TUN interface. VPN mode cannot carry traffic without it.</p></article>
+            <article><h3>Camera</h3><p>Only needed to scan a QR code. Manual import and ordinary subscriptions work without camera access.</p></article>
+            <article><h3>Notifications</h3><p>Used for the visible foreground VPN-service status: connection, server, and stop action. Prompt behaviour varies by Android version.</p></article>
+            <article><h3>APK installation</h3><p>Used by OTA only to hand an APK to the Android package installer. Etonify cannot silently install an update.</p></article>
+            <article><h3>Installed app list</h3><p>Used to show apps in split tunneling. The list stays on the device and is not sent to a provider.</p></article>
+            <article><h3>File chooser</h3><p>Import and export use the Android system picker. The client does not request unrestricted access to all storage.</p></article>
+          </div>
+          <div class="callout neutral"><strong>What can be declined?</strong><p>You can decline camera and APK-installation access when you do not use QR or OTA. A working system VPN only needs Android’s VPN approval; keeping notifications enabled is recommended so Android can show the service state.</p></div>
         `,
       },
       {
@@ -591,6 +758,28 @@ window.ETONIFY_DOCS = {
           </div>
           <div class="callout neutral"><strong>Bundled-core limitation in 0.2.5.</strong><p>The core performs HTTP URLTest for a group but does not expose an honest targeted HTTP check for one outbound. Results therefore arrive asynchronously for group members; tapping the selected server latency should not be interpreted as an independent ICMP or TCP ping of that endpoint.</p></div>
           <div class="callout warning"><strong>Do not repeatedly test hundreds of servers.</strong><p>Each run creates network requests and consumes CPU, battery, and file descriptors. Let the current session finish.</p></div>
+        `,
+      },
+      {
+        id: 'terms',
+        group: 'use',
+        nav: 'Glossary',
+        kicker: 'Plain language',
+        title: 'Short explanations of technical terms',
+        lead: 'These terms appear in settings and logs. You do not need to memorise them, but they help during diagnosis.',
+        body: `
+          <div class="glossary-grid">
+            <article><h3>Inbound</h3><p>The point where traffic enters Etonify: Android VPN TUN or a local HTTP/SOCKS proxy.</p></article>
+            <article><h3>Outbound</h3><p>A server or route through which traffic leaves the client for the internet.</p></article>
+            <article><h3>Endpoint</h3><p>A specific server address together with its port, protocol, and connection parameters.</p></article>
+            <article><h3>URLTest</h3><p>An availability test using a real HTTP request through a proxy. It is not an ICMP ping to an IP address.</p></article>
+            <article><h3>TUN stack</h3><p>The VPN network stack: <code>gVisor</code>, <code>system</code>, or <code>Mixed</code>. It affects compatibility and load.</p></article>
+            <article><h3>DoH and DoT</h3><p>Encrypted DNS protocols: DNS over HTTPS and DNS over TLS.</p></article>
+            <article><h3>HWID</h3><p>A device identifier some providers use to issue a subscription. Etonify asks for consent before sending it.</p></article>
+            <article><h3>ABI</h3><p>An Android CPU architecture, for example <code>arm64-v8a</code>. It determines which APK you need.</p></article>
+            <article><h3>PSS and RSS</h3><p>Process-memory measures: PSS apportions shared memory, while RSS counts resident mapped memory. Compare them over time, not as one isolated value.</p></article>
+            <article><h3>Cross-origin redirect</h3><p>A subscription URL changing to another domain. Etonify does not carry sensitive headers to the new host.</p></article>
+          </div>
         `,
       },
       {
@@ -675,6 +864,27 @@ window.ETONIFY_DOCS = {
             <li>Android will reject an APK signed with a different certificate.</li>
           </ul>
           <div class="callout success"><strong>A regular update preserves settings.</strong><p>Uninstalling clears local application data, so use encrypted export before reinstalling.</p></div>
+        `,
+      },
+      {
+        id: 'limitations',
+        group: 'solve',
+        nav: 'Limitations',
+        kicker: 'Important',
+        title: 'The client’s practical boundaries',
+        lead: 'These are not hidden conditions or errors. Knowing them helps interpret diagnostics correctly and prevents the wrong expectations.',
+        body: `
+          <div class="limits-grid">
+            <article><h3>Android only</h3><p>Version 0.2.5 has no release client for Windows, iOS, macOS, or Linux.</p></article>
+            <article><h3>No servers included</h3><p>The client connects to your subscription. Server availability, expiry, and rules are controlled by the provider.</p></article>
+            <article><h3>The format matters</h3><p>A subscription can contain an unsupported or incomplete server. Protocol support does not make invalid parameters work.</p></article>
+            <article><h3>URLTest is not a speed test</h3><p>It measures one HTTP request. It is not equal to ICMP, throughput, or the quality of every website.</p></article>
+            <article><h3>Split tunneling</h3><p><code>Mixed</code> is unstable with split tunneling on some devices. When affected, try <code>gVisor</code> first, then <code>system</code>.</p></article>
+            <article><h3>Local proxy</h3><p>It does not enable VPN on its own: another app or device must be configured with Etonify’s address, port, username, and password.</p></article>
+            <article><h3>Large subscriptions</h3><p>Hundreds or thousands of servers, group URLTest, and heavy rule sets use more memory, battery, and processing time.</p></article>
+            <article><h3>Background work</h3><p>VPN uses a foreground service, but aggressive battery settings on some firmware can still restrict background processes. If that repeats, inspect the system battery settings.</p></article>
+          </div>
+          <div class="callout warning"><strong>“Connected” does not replace a traffic test.</strong><p>After a Wi‑Fi ↔ mobile-network handover, subscription refresh, or TUN-stack change, open the app you need. If there is a problem, save diagnostics before reconnecting.</p></div>
         `,
       },
       {
