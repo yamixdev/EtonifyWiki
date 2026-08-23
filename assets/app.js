@@ -4,9 +4,8 @@
   const docs = window.ETONIFY_DOCS;
   if (!docs) return;
 
-  const RELEASE_TAG = '0.2.5';
   const RELEASE_SNAPSHOT_URL = 'assets/latest-release.json';
-  const RELEASES_URL = `https://github.com/yamixdev/Etonify/releases/tag/${RELEASE_TAG}`;
+  const RELEASES_URL = 'https://github.com/yamixdev/Etonify/releases';
 
   const root = document.documentElement;
   const body = document.body;
@@ -42,16 +41,22 @@
     install: 'install_mobile',
     permissions: 'shield_lock',
     'quick-start': 'rocket_launch',
+    inbounds: 'input',
     subscriptions: 'add_link',
     servers: 'speed',
+    'proxy-chains': 'account_tree',
     terms: 'help',
     'split-routing': 'alt_route',
     'dns-routing': 'dns',
+    'traffic-rules': 'rule',
+    'geo-resources': 'public',
+    experimental: 'science',
     backup: 'backup',
     updates: 'system_update',
     limitations: 'troubleshoot',
     troubleshooting: 'troubleshoot',
     diagnostics: 'description',
+    about: 'info',
     privacy: 'shield_lock',
     faq: 'help',
     support: 'support_agent',
@@ -262,13 +267,15 @@
       const response = await fetch(RELEASE_SNAPSHOT_URL, { cache: 'no-cache' });
       if (!response.ok) throw new Error(`Release snapshot request failed: ${response.status}`);
       const payload = await response.json();
-      if (!payload || payload.tagName !== RELEASE_TAG) throw new Error(`Expected release ${RELEASE_TAG}`);
+      if (!payload || typeof payload.tagName !== 'string' || !payload.tagName.trim()) {
+        throw new Error('Release snapshot does not contain a tag');
+      }
       releaseData = {
         tagName: payload.tagName,
         name: typeof payload.name === 'string' && payload.name.trim() ? payload.name : payload.tagName,
         body: typeof payload.body === 'string' ? payload.body : '',
         publishedAt: payload.publishedAt,
-        url: typeof payload.url === 'string' && payload.url.startsWith(`${RELEASES_URL}/`)
+        url: typeof payload.url === 'string' && payload.url.startsWith(`${RELEASES_URL}/tag/`)
           ? payload.url
           : RELEASES_URL,
       };
@@ -410,6 +417,7 @@
     document.querySelector('#theme-dark-label').textContent = copy.ui.themeDark;
     document.querySelector('#sidebar-version').textContent = copy.ui.version;
     document.querySelector('#sidebar-platform').textContent = copy.ui.platform;
+    document.querySelector('#release-dialog-version').textContent = copy.ui.releaseLatest;
     document.querySelector('#release-dialog-title').textContent = copy.ui.releaseDialogTitle;
     releaseDialogTrigger.setAttribute('aria-label', `${copy.ui.releaseShowChanges}: ${copy.ui.version}`);
     releaseDialogClose.setAttribute('aria-label', copy.ui.releaseDialogClose);

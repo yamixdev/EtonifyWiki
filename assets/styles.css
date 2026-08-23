@@ -34,15 +34,15 @@
 
 html[data-theme="dark"] {
   color-scheme: dark;
-  --bg: #111218;
-  --bg-raised: #1b1c22;
-  --bg-soft: #25262d;
-  --bg-tint: #20243a;
-  --text: #e5e1e9;
-  --text-soft: #c7c5d0;
-  --text-faint: #91909a;
-  --line: #303038;
-  --line-strong: #484851;
+  --bg: #0c0f14;
+  --bg-raised: #141820;
+  --bg-soft: #1c222c;
+  --bg-tint: #19233f;
+  --text: #f2f5fa;
+  --text-soft: #d5dbe6;
+  --text-faint: #a6afbd;
+  --line: #303947;
+  --line-strong: #4a5768;
   --accent: #b9c2ff;
   --accent-strong: #d7dcff;
   --accent-soft: #35448f;
@@ -128,8 +128,9 @@ html[data-theme="dark"] body::before {
   background:
     linear-gradient(122deg, transparent 20%, rgb(169 181 255 / 2%) 37%, rgb(184 194 255 / 8%) 49%, rgb(119 139 241 / 3%) 61%, transparent 76%),
     radial-gradient(ellipse at 70% 14%, rgb(149 165 255 / 9%), transparent 56%);
-  filter: blur(24px);
-  opacity: 0.82;
+  /* Keep the moonlight as a lightweight gradient instead of a full-screen blur. */
+  filter: none;
+  opacity: 0.68;
   transform: rotate(-4deg);
   animation: moonbeam-drift 24s ease-in-out infinite alternate;
 }
@@ -257,9 +258,9 @@ svg {
   width: 100dvw;
   height: var(--header-height);
   border-bottom: 1px solid color-mix(in srgb, var(--line) 70%, transparent);
-  background: color-mix(in srgb, var(--bg) 90%, transparent);
-  -webkit-backdrop-filter: blur(20px) saturate(145%);
-  backdrop-filter: blur(20px) saturate(145%);
+  /* Opaque surface keeps text crisp on low-power phones; no backdrop blur. */
+  background: color-mix(in srgb, var(--bg) 97%, var(--bg-raised));
+  box-shadow: 0 8px 24px rgb(0 0 0 / 18%);
 }
 
 .header-inner {
@@ -1730,6 +1731,7 @@ html[data-theme-choice="dark"] .theme-icon-dark {
 .latency.muted { color: var(--text-faint); }
 .latency.timeout { color: var(--danger); }
 .latency.error { color: var(--danger); }
+.latency.unavailable { color: var(--danger); font-size: 18px; }
 
 .status-table + .doc-grid {
   margin-top: 12px;
@@ -1860,6 +1862,10 @@ html[data-theme-choice="dark"] .theme-icon-dark {
   background: color-mix(in srgb, var(--bg-soft) 50%, transparent);
 }
 
+.report-template + .doc-grid {
+  margin-top: 14px;
+}
+
 .report-template ul {
   padding-left: 20px;
   margin: 14px 0 0;
@@ -1953,8 +1959,6 @@ html[data-theme-choice="dark"] .theme-icon-dark {
   pointer-events: none;
   transform: translateY(8px);
   transition: opacity 140ms ease, transform 140ms ease;
-  -webkit-backdrop-filter: blur(12px);
-  backdrop-filter: blur(12px);
   place-items: center;
 }
 
@@ -1982,8 +1986,6 @@ html[data-theme-choice="dark"] .theme-icon-dark {
 
 .release-dialog::backdrop {
   background: rgb(5 7 13 / 58%);
-  -webkit-backdrop-filter: blur(16px) saturate(82%);
-  backdrop-filter: blur(16px) saturate(82%);
 }
 
 @keyframes release-dialog-in {
@@ -2060,8 +2062,6 @@ html[data-theme-choice="dark"] .theme-icon-dark {
 
 .search-dialog::backdrop {
   background: rgb(8 10 14 / 58%);
-  -webkit-backdrop-filter: blur(6px);
-  backdrop-filter: blur(6px);
 }
 
 .search-dialog-head {

@@ -1,5 +1,7 @@
 # Etonify Documentation
 
+User documentation for the Etonify **0.3.0** line. The current public release shown in the change log is fetched automatically from GitHub Releases.
+
 Static RU/EN documentation for [Etonify](https://github.com/yamixdev/Etonify).
 
 ## Architecture
